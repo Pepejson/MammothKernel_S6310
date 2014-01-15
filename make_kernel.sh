@@ -1,0 +1,2 @@
+make royss_user_defconfig
+make
