@@ -1,6 +1,26 @@
 # Object files
 *.o
 *.ko
+*.cmd
+*.order
+*.builtin
+vmlinux
+.config
+.config.old
+*.S
+*.lzo
+*.lds
+*.s
+.version
+Image
+zImage
+System.map
+Module.symvers
+.missing-syscalls.d
+.tmp_System.map
+.tmp_versions/
+.tmp_vmlinux1
+.tmp_vmlinux2
 
 # Libraries
 *.lib
