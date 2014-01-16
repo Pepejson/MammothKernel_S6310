@@ -1,1 +1,1 @@
-#define UTS_RELEASE "3.4.0-g67f3cc9-dirty"
+#define UTS_RELEASE "3.4.0MammothKernel-g6e19726-dirty"
