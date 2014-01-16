@@ -21,6 +21,14 @@ Module.symvers
 .tmp_versions/
 .tmp_vmlinux1
 .tmp_vmlinux2
+auto.conf
+kernel.release
+tristate.conf
+autoconf.h
+compile.h
+utsrelease.h
+config_data.gz
+config_data.h
 
 # Libraries
 *.lib
