@@ -624,3 +624,11 @@ CONFIG_CRYPTO_SHA256=y
 CONFIG_CRYPTO_AES=y
 # I know 7x27 chip has single core. but config_smp enabled in 7x27. so I have no choice.
 CONFIG_SEC_SINGLE_CORE=y
+# # #
+# Mamutos custom flags
+# # #
+CONFIG_IOSCHED_ZEN=y
+CONFIG_IOSCHED_ROW=y
+CONFIG_DEFAULT_SIO=y
+CONFIG_IOSCHED_SIO=y
+CONFIG_DEFAULT_IOSCHED="sio"
