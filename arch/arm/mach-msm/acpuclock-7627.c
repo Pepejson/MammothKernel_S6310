@@ -44,9 +44,9 @@
 #define A11S_CLK_SEL_ADDR (MSM_CSR_BASE + 0x104)
 #define A11S_VDD_SVS_PLEVEL_ADDR (MSM_CSR_BASE + 0x124)
 
-
-#define PLL4_MODE        (MSM_CLK_CTL_BASE + 0x374)
+//Define PLL4 adress - mamutos
 #define PLL4_L_VAL        (MSM_CLK_CTL_BASE + 0x378)
+
 #define PLL4_L_VAL_ADDR		(MSM_CLK_CTL_BASE + 0x378)
 #define PLL4_M_VAL_ADDR		(MSM_CLK_CTL_BASE + 0x37C)
 #define PLL4_N_VAL_ADDR		(MSM_CLK_CTL_BASE + 0x380)
@@ -236,8 +236,16 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_1008[] = {
 	{ 0, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
 	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000 },
-	{ 1, 1108800, ACPU_PLL_4, 6, 0, 138600, 3, 7, 200000 },
-	{ 1, 1209600, ACPU_PLL_4, 6, 0, 151200, 3, 7, 200000 },
+        { 1, 1036800, ACPU_PLL_4, 6, 0, 129600, 3, 7, 200000 },
+        { 1, 1056000, ACPU_PLL_4, 6, 0, 132000, 3, 7, 200000 },
+        { 1, 1113600, ACPU_PLL_4, 6, 0, 139200, 3, 7, 200000 },
+        { 1, 1152000, ACPU_PLL_4, 6, 0, 144000, 3, 7, 200000 },
+        { 1, 1190400, ACPU_PLL_4, 6, 0, 148800, 3, 7, 200000 },
+        { 1, 1228800, ACPU_PLL_4, 6, 0, 153600, 3, 7, 200000 },
+        { 1, 1267200, ACPU_PLL_4, 6, 0, 158400, 3, 7, 200000 },
+	{ 1, 1280000, ACPU_PLL_4, 6, 0, 160000, 3, 7, 200000 }, //Max for PLL, next freqs will not have own PLL freq
+	//{ 1, 1108800, ACPU_PLL_4, 6, 0, 138600, 3, 7, 200000 },
+	//{ 1, 1209600, ACPU_PLL_4, 6, 0, 151200, 3, 7, 200000 },
 	//{ 1, 1305600, ACPU_PLL_4, 6, 0, 163100, 3, 7, 200000 },
 	//{ 1, 1401600, ACPU_PLL_4, 6, 0, 175000, 3, 7, 200000 }, 
 	//{ 1, 1497600, ACPU_PLL_4, 6, 0, 187000, 3, 7, 200000 },
@@ -256,8 +264,16 @@ static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_1008[] = {
 	{ 0, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
 	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000 },
-	{ 1, 1108800, ACPU_PLL_4, 6, 0, 138600, 3, 7, 200000 },
-	{ 1, 1209600, ACPU_PLL_4, 6, 0, 151200, 3, 7, 200000 },
+        { 1, 1036800, ACPU_PLL_4, 6, 0, 129600, 3, 7, 200000 },
+        { 1, 1056000, ACPU_PLL_4, 6, 0, 132000, 3, 7, 200000 },
+        { 1, 1113600, ACPU_PLL_4, 6, 0, 139200, 3, 7, 200000 },
+        { 1, 1152000, ACPU_PLL_4, 6, 0, 144000, 3, 7, 200000 },
+        { 1, 1190400, ACPU_PLL_4, 6, 0, 148800, 3, 7, 200000 },
+        { 1, 1228800, ACPU_PLL_4, 6, 0, 153600, 3, 7, 200000 },
+        { 1, 1267200, ACPU_PLL_4, 6, 0, 158400, 3, 7, 200000 },
+	{ 1, 1280000, ACPU_PLL_4, 6, 0, 160000, 3, 7, 200000 }, //Max for PLL, next freqs will not have own PLL freq
+	//{ 1, 1108800, ACPU_PLL_4, 6, 0, 138600, 3, 7, 200000 },
+	//{ 1, 1209600, ACPU_PLL_4, 6, 0, 151200, 3, 7, 200000 },
 	//{ 1, 1305600, ACPU_PLL_4, 6, 0, 163100, 3, 7, 200000 },
 	//{ 1, 1401600, ACPU_PLL_4, 6, 0, 175000, 3, 7, 200000 }, 
 	//{ 1, 1497600, ACPU_PLL_4, 6, 0, 187000, 3, 7, 200000 },
@@ -649,12 +665,17 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 	}
 	
 	//Overclocking PLL4 - mamutos
-        // Perform overclocking if requested
+        //Perform overclocking if requested
         if(hunt_s->pll==ACPU_PLL_4 && hunt_s->a11clk_khz>1008000) {
-                // Change the speed of PLL4
-                //writel_relaxed(hunt_s->a11clk_khz/19200, PLL4_MODE);
-		writel_relaxed(hunt_s->a11clk_khz/19200, PLL4_L_VAL);
-		pr_warning("mamutos: Changed PLL4 to (%d)\n", hunt_s->a11clk_khz/19200);
+		if (hunt_s->a11clk_khz > 1280000) {
+			// Don't exceed the max PLL4 speed of 66.67MHz
+			writel(1280000/19200, PLL4_L_VAL);
+			pr_warning("Freq over 1.28GHz! Setting PLL4 to (%d)\n", 1280000/19200); 
+		} else {
+                	// Change the speed of PLL4
+			writel_relaxed(hunt_s->a11clk_khz/19200, PLL4_L_VAL);
+			pr_warning("mamutos: Changed PLL4 to (%d)\n", hunt_s->a11clk_khz/19200);
+		}
                 udelay(50);
         }
 
@@ -677,8 +698,7 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
         // Recover from overclocking
         if(hunt_s->pll==ACPU_PLL_4 && hunt_s->a11clk_khz<=1008000) {
                 // Restore the speed of PLL4
-                //writel(PLL_1008_MHZ, PLL4_MODE);
-		writel(PLL_1008_MHZ, PLL4_L_VAL);
+		writel_relaxed(PLL_1008_MHZ, PLL4_L_VAL);
 		pr_warning("mamutos: Changed PLL4 to (%d)\n", PLL_1008_MHZ);
                 udelay(50);
         }
