@@ -44,6 +44,8 @@
 #define A11S_CLK_SEL_ADDR (MSM_CSR_BASE + 0x104)
 #define A11S_VDD_SVS_PLEVEL_ADDR (MSM_CSR_BASE + 0x124)
 
+
+#define PLL4_MODE        (MSM_CLK_CTL_BASE + 0x374)
 #define PLL4_L_VAL_ADDR		(MSM_CLK_CTL_BASE + 0x378)
 #define PLL4_M_VAL_ADDR		(MSM_CLK_CTL_BASE + 0x37C)
 #define PLL4_N_VAL_ADDR		(MSM_CLK_CTL_BASE + 0x380)
@@ -52,6 +54,9 @@
 
 /* Max CPU frequency allowed by hardware while in standby waiting for an irq. */
 #define MAX_WAIT_FOR_IRQ_KHZ 128000
+
+//Define stock max PLL4 freq - mamutos
+#define PLL_1008_MHZ 52
 
 /**
  * enum - For acpuclock PLL IDs
@@ -227,14 +232,14 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_1008[] = {
 	{ 0, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 122880 },
 	{ 1, 320000, ACPU_PLL_0, 4, 2, 40000, 3, 4, 122880 },
 	{ 1, 480000, ACPU_PLL_0, 4, 1, 60000, 3, 5, 122880 },
-	{ 1, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
+	{ 0, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
-	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000},
-	{ 1, 1108800, ACPU_PLL_4, 6, 0, 138600, 3, 7, 200000},
-	{ 1, 1209600, ACPU_PLL_4, 6, 0, 151200, 3, 7, 200000},
-	{ 1, 1305600, ACPU_PLL_4, 6, 0, 163100, 3, 7, 200000},
-	{ 1, 1401600, ACPU_PLL_4, 6, 0, 175000, 3, 7, 200000},
-	{ 1, 1497600, ACPU_PLL_4, 6, 0, 187000, 3, 7, 240000},
+	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000 },
+	{ 1, 1108800, ACPU_PLL_4, 6, 0, 138600, 3, 7, 200000 },
+	{ 1, 1209600, ACPU_PLL_4, 6, 0, 151200, 3, 7, 200000 },
+	//{ 1, 1305600, ACPU_PLL_4, 6, 0, 163100, 3, 7, 200000 },
+	//{ 1, 1401600, ACPU_PLL_4, 6, 0, 175000, 3, 7, 200000 }, 
+	//{ 1, 1497600, ACPU_PLL_4, 6, 0, 187000, 3, 7, 200000 },
 	{ 0 }
 };
 
@@ -247,14 +252,14 @@ static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_1008[] = {
 	{ 0, 300000, ACPU_PLL_2, 2, 3, 37500, 3, 4, 122880 },
 	{ 1, 320000, ACPU_PLL_0, 4, 2, 40000, 3, 4, 122880 },
 	{ 1, 480000, ACPU_PLL_0, 4, 1, 60000, 3, 5, 122880 },
-	{ 1, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
+	{ 0, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
-	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000},
-	{ 1, 1108800, ACPU_PLL_4, 6, 0, 138600, 3, 7, 200000},
-	{ 1, 1209600, ACPU_PLL_4, 6, 0, 151200, 3, 7, 200000},
-	{ 1, 1305600, ACPU_PLL_4, 6, 0, 163100, 3, 7, 200000},
-	{ 1, 1401600, ACPU_PLL_4, 6, 0, 175000, 3, 7, 200000},
-	{ 1, 1497600, ACPU_PLL_4, 6, 0, 187000, 3, 7, 240000},
+	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000 },
+	{ 1, 1108800, ACPU_PLL_4, 6, 0, 138600, 3, 7, 200000 },
+	{ 1, 1209600, ACPU_PLL_4, 6, 0, 151200, 3, 7, 200000 },
+	//{ 1, 1305600, ACPU_PLL_4, 6, 0, 163100, 3, 7, 200000 },
+	//{ 1, 1401600, ACPU_PLL_4, 6, 0, 175000, 3, 7, 200000 }, 
+	//{ 1, 1497600, ACPU_PLL_4, 6, 0, 187000, 3, 7, 200000 },
 	{ 0 }
 };
 
@@ -631,6 +636,8 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 	clk_div = (reg_clksel >> 1) & 0x03;
 	/* CLK_SEL_SRC1NO */
 	src_sel = reg_clksel & 1;
+	// Change the speed of PLL4 - mamutos
+	//writel(hunt_s->a11clk_khz/19200, PLL4_L_VAL);
 
 	/*
 	 * If the new clock divider is higher than the previous, then
@@ -641,6 +648,14 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 		reg_clksel |= (hunt_s->ahbclk_div << 1);
 		writel_relaxed(reg_clksel, A11S_CLK_SEL_ADDR);
 	}
+	
+	//Overclocking PLL4 - mamutos
+        // Perform overclocking if requested
+        if(hunt_s->pll==ACPU_PLL_4 && hunt_s->a11clk_khz>1008000) {
+                // Change the speed of PLL4
+                writel_relaxed(hunt_s->a11clk_khz/19200, PLL4_MODE);
+                udelay(50);
+        }
 
 	/* Program clock source and divider */
 	reg_clkctl = readl_relaxed(A11S_CLK_CNTL_ADDR);
@@ -656,6 +671,14 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 	/* Wait for the clock switch to complete */
 	mb();
 	udelay(50);
+
+	// Recovering PLL4 - mamutos
+        // Recover from overclocking
+        if(hunt_s->pll==ACPU_PLL_4 && hunt_s->a11clk_khz<=1008000) {
+                // Restore the speed of PLL4
+                writel_relaxed(PLL_1008_MHZ, PLL4_MODE);
+                udelay(50);
+        }
 
 	/*
 	 * If the new clock divider is lower than the previous, then
@@ -1234,5 +1257,40 @@ static int __init acpuclk_7627_init(void)
 {
 	return platform_driver_register(&acpuclk_7627_driver);
 }
+
 postcore_initcall(acpuclk_7627_init);
+
+/*
+#ifdef CONFIG_CPU_FREQ_VDD_LEVELS
+
+ssize_t acpuclk_get_vdd_levels_str(char *buf) {
+
+        int i, len = 0;
+
+        if (buf) {
+                mutex_lock(&drv_state.lock);
+
+                for (i = 0; pll0_960_pll1_245_pll2_1200_pll4_1008[i].a11clk_khz; i++) {
+                        if (pll0_960_pll1_245_pll2_1200_pll4_1008[i].use_for_scaling)
+                        len += sprintf(buf + len, "%8u: %8d\n", pll0_960_pll1_245_pll2_1200_pll4_1008[i].a11clk_khz, pll0_960_pll1_245_pll2_1200_pll4_1008[i].vdd);
+                }
+
+                mutex_unlock(&drv_state.lock);
+        }
+        return len;
+}
+
+void acpuclk_set_vdd(unsigned int khz, int vdd_uv) {
+        int i;
+        printk(KERN_ERR"acpuclk_set_vdd khz: %d, vdd_uv: %d\n", khz, vdd_uv);
+        mutex_lock(&drv_state.lock);
+
+        for (i = 0; pll0_960_pll1_245_pll2_1200_pll4_1008[i].a11clk_khz; i++) {
+                if ( pll0_960_pll1_245_pll2_1200_pll4_1008[i].a11clk_khz == khz)
+                        ppll0_960_pll1_245_pll2_1200_pll4_1008[i].vdd = vdd_uv;
+        }
+
+        mutex_unlock(&drv_state.lock);
+}
+#endif */
 
