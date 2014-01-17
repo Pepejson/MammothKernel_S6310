@@ -46,6 +46,7 @@
 
 
 #define PLL4_MODE        (MSM_CLK_CTL_BASE + 0x374)
+#define PLL4_L_VAL        (MSM_CLK_CTL_BASE + 0x378)
 #define PLL4_L_VAL_ADDR		(MSM_CLK_CTL_BASE + 0x378)
 #define PLL4_M_VAL_ADDR		(MSM_CLK_CTL_BASE + 0x37C)
 #define PLL4_N_VAL_ADDR		(MSM_CLK_CTL_BASE + 0x380)
@@ -636,8 +637,6 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 	clk_div = (reg_clksel >> 1) & 0x03;
 	/* CLK_SEL_SRC1NO */
 	src_sel = reg_clksel & 1;
-	// Change the speed of PLL4 - mamutos
-	//writel(hunt_s->a11clk_khz/19200, PLL4_L_VAL);
 
 	/*
 	 * If the new clock divider is higher than the previous, then
@@ -653,7 +652,8 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
         // Perform overclocking if requested
         if(hunt_s->pll==ACPU_PLL_4 && hunt_s->a11clk_khz>1008000) {
                 // Change the speed of PLL4
-                writel_relaxed(hunt_s->a11clk_khz/19200, PLL4_MODE);
+                //writel_relaxed(hunt_s->a11clk_khz/19200, PLL4_MODE);
+		writel_relaxed(hunt_s->a11clk_khz/19200, PLL4_L_VAL);
 		pr_warning("mamutos: Changed PLL4 to (%d)\n", hunt_s->a11clk_khz/19200);
                 udelay(50);
         }
@@ -677,7 +677,8 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
         // Recover from overclocking
         if(hunt_s->pll==ACPU_PLL_4 && hunt_s->a11clk_khz<=1008000) {
                 // Restore the speed of PLL4
-                writel_relaxed(PLL_1008_MHZ, PLL4_MODE);
+                //writel(PLL_1008_MHZ, PLL4_MODE);
+		writel(PLL_1008_MHZ, PLL4_L_VAL);
 		pr_warning("mamutos: Changed PLL4 to (%d)\n", PLL_1008_MHZ);
                 udelay(50);
         }
