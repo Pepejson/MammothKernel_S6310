@@ -668,11 +668,11 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 		if (hunt_s->a11clk_khz > 1280000) {
 			// Don't exceed the max PLL4 speed of 66.67MHz
 			writel(1280000/19200, PLL4_L_VAL);
-			pr_warning("Freq over 1.28GHz! Setting PLL4 to (%d)\n", 1280000/19200); 
+			//pr_warning("Freq over 1.28GHz! Setting PLL4 to (%d)\n", 1280000/19200); 
 		} else {
                 	// Change the speed of PLL4
 			writel_relaxed(hunt_s->a11clk_khz/19200, PLL4_L_VAL);
-			pr_warning("mamutos: Changed PLL4 to (%d)\n", hunt_s->a11clk_khz/19200);
+			//pr_warning("mamutos: Changed PLL4 to (%d)\n", hunt_s->a11clk_khz/19200);
 		}
                 udelay(50);
         }
@@ -697,7 +697,7 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
         if(hunt_s->pll==ACPU_PLL_4 && hunt_s->a11clk_khz<=1008000) {
                 // Restore the speed of PLL4
 		writel_relaxed(PLL_1008_MHZ, PLL4_L_VAL);
-		pr_warning("mamutos: Changed PLL4 to (%d)\n", PLL_1008_MHZ);
+		//pr_warning("mamutos: Changed PLL4 to (%d)\n", PLL_1008_MHZ);
                 udelay(50);
         }
 
