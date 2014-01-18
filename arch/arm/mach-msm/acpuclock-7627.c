@@ -1274,16 +1274,8 @@ static struct platform_driver acpuclk_7627_driver = {
 	},
 };
 
-static int __init acpuclk_7627_init(void)
-{
-	return platform_driver_register(&acpuclk_7627_driver);
-}
-
-postcore_initcall(acpuclk_7627_init);
-
-/*
+//Ported acpuclock VDD functions from X8 kernel - mamutos
 #ifdef CONFIG_CPU_FREQ_VDD_LEVELS
-
 ssize_t acpuclk_get_vdd_levels_str(char *buf) {
 
         int i, len = 0;
@@ -1308,10 +1300,16 @@ void acpuclk_set_vdd(unsigned int khz, int vdd_uv) {
 
         for (i = 0; pll0_960_pll1_245_pll2_1200_pll4_1008[i].a11clk_khz; i++) {
                 if ( pll0_960_pll1_245_pll2_1200_pll4_1008[i].a11clk_khz == khz)
-                        ppll0_960_pll1_245_pll2_1200_pll4_1008[i].vdd = vdd_uv;
+                        pll0_960_pll1_245_pll2_1200_pll4_1008[i].vdd = vdd_uv;
         }
 
         mutex_unlock(&drv_state.lock);
 }
-#endif */
+#endif
 
+static int __init acpuclk_7627_init(void)
+{
+	return platform_driver_register(&acpuclk_7627_driver);
+}
+
+postcore_initcall(acpuclk_7627_init);
