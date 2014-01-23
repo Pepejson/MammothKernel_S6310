@@ -235,21 +235,19 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_1008[] = {
 	{ 1, 480000, ACPU_PLL_0, 4, 1, 60000, 3, 5, 122880 },
 	{ 0, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
-	{ 1, 1008000, ACPU_PLL_4, 6, 0, 136000, 3, 7, 200000 },
-        { 1, 1036800, ACPU_PLL_4, 6, 0, 139600, 3, 7, 200000 },
-        { 1, 1056000, ACPU_PLL_4, 6, 0, 142000, 3, 7, 200000 },
-        { 1, 1113600, ACPU_PLL_4, 6, 0, 149200, 3, 7, 200000 },
-        { 1, 1152000, ACPU_PLL_4, 6, 0, 154000, 3, 7, 200000 },
-        { 1, 1190400, ACPU_PLL_4, 6, 0, 158800, 3, 7, 200000 },
-        { 1, 1228800, ACPU_PLL_4, 6, 0, 163600, 3, 7, 200000 },
-        { 1, 1267200, ACPU_PLL_4, 6, 0, 168400, 3, 7, 200000 },
-	{ 1, 1280000, ACPU_PLL_4, 6, 0, 170000, 3, 7, 200000 }, //Max for PLL, next freqs will not have own PLL freq
-	{ 1, 1290000, ACPU_PLL_4, 6, 0, 171250, 3, 7, 200000 },
-        { 1, 1300000, ACPU_PLL_4, 6, 0, 172500, 3, 7, 200000 },
-	//205302
-	//210604
-	//215906
-	//221208
+	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000 },
+        { 1, 1036800, ACPU_PLL_4, 6, 0, 129600, 3, 7, 200000 },
+        { 1, 1056000, ACPU_PLL_4, 6, 0, 132000, 3, 7, 200000 },
+        { 1, 1113600, ACPU_PLL_4, 6, 0, 139200, 3, 7, 200000 },
+        { 1, 1152000, ACPU_PLL_4, 6, 0, 144000, 3, 7, 200000 },
+        { 1, 1190400, ACPU_PLL_4, 6, 0, 148800, 3, 7, 200000 },
+        { 1, 1228800, ACPU_PLL_4, 6, 0, 153600, 3, 7, 200000 },
+        { 1, 1267200, ACPU_PLL_4, 6, 0, 158400, 3, 7, 200000 },
+	{ 1, 1280000, ACPU_PLL_4, 6, 0, 160000, 3, 7, 200000 }, //Max for PLL, next freqs will not have own PLL freq
+	{ 1, 1290000, ACPU_PLL_4, 6, 0, 161250, 3, 7, 200000 },
+        { 1, 1300000, ACPU_PLL_4, 6, 0, 162500, 3, 7, 200000 },
+        { 1, 1310720, ACPU_PLL_4, 6, 0, 163840, 3, 7, 200000 },
+        { 1, 1324800, ACPU_PLL_4, 6, 0, 165600, 3, 7, 200000 }, //Max stable freq
 	{ 0 }
 };
 
@@ -264,7 +262,19 @@ static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_1008[] = {
 	{ 1, 480000, ACPU_PLL_0, 4, 1, 60000, 3, 5, 122880 },
 	{ 0, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
-	{ 1, 1008000, ACPU_PLL_4, 6, 0, 136000, 3, 7, 200000 },
+	{ 1, 1008000, ACPU_PLL_4, 6, 0, 126000, 3, 7, 200000 },
+        { 1, 1036800, ACPU_PLL_4, 6, 0, 129600, 3, 7, 200000 },
+        { 1, 1056000, ACPU_PLL_4, 6, 0, 132000, 3, 7, 200000 },
+        { 1, 1113600, ACPU_PLL_4, 6, 0, 139200, 3, 7, 200000 },
+        { 1, 1152000, ACPU_PLL_4, 6, 0, 144000, 3, 7, 200000 },
+        { 1, 1190400, ACPU_PLL_4, 6, 0, 148800, 3, 7, 200000 },
+        { 1, 1228800, ACPU_PLL_4, 6, 0, 153600, 3, 7, 200000 },
+        { 1, 1267200, ACPU_PLL_4, 6, 0, 158400, 3, 7, 200000 },
+	{ 1, 1280000, ACPU_PLL_4, 6, 0, 160000, 3, 7, 200000 }, //Max for PLL, next freqs will not have own PLL freq
+        { 1, 1290000, ACPU_PLL_4, 6, 0, 161250, 3, 7, 200000 },
+        { 1, 1300000, ACPU_PLL_4, 6, 0, 162500, 3, 7, 200000 },
+        { 1, 1310720, ACPU_PLL_4, 6, 0, 163840, 3, 7, 200000 },
+        { 1, 1324800, ACPU_PLL_4, 6, 0, 165600, 3, 7, 200000 }, //Max stable freq
 	{ 0 }
 };
 
@@ -904,17 +914,8 @@ done:
 	if (strt_s->axiclk_khz != tgt_s->axiclk_khz) {
 		res = clk_set_rate(drv_state.ebi1_clk,
 				tgt_s->axiclk_khz * 1000);
-		if (res < 0) {
-			pr_warning("First warning: Setting AXI min rate failed (%d)\n", res);
-			pr_warning("mamutos current axi: %d", strt_s->axiclk_khz);
-			pr_warning("mamutos new axi: %d", tgt_s->axiclk_khz);
-			pr_warning("EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
-			pr_warning("AXI_CLK: %d", tgt-s->axiclk_khz * 1000);
-		} else {
-			pr_warning("Success RES State: (%d)\n", res);
-			pr_warning("EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
-			pr_warning("AXI_CLK: %d", tgt-s->axiclk_khz * 1000);
-		}
+		if (res < 0)
+			pr_warning("Setting AXI min rate failed (%d)\n", res);
 	}
 
 	/* Disable PLLs we are not using anymore. */
@@ -1002,7 +1003,7 @@ static void __devinit acpuclk_hw_init(void)
 
 	res = clk_set_rate(drv_state.ebi1_clk, speed->axiclk_khz * 1000);
 	if (res < 0)
-		pr_warning("Second Warning: Setting AXI min rate failed (%d)\n", res);
+		pr_warning("Setting AXI min rate failed (%d)\n", res);
 	res = clk_enable(drv_state.ebi1_clk);
 	if (res < 0)
 		pr_warning("Enabling AXI clock failed (%d)\n", res);
@@ -1273,8 +1274,13 @@ static struct platform_driver acpuclk_7627_driver = {
 	},
 };
 
-//Ported acpuclock VDD functions from X8 kernel - mamutos
+static int __init acpuclk_7627_init(void)
+{
+	return platform_driver_register(&acpuclk_7627_driver);
+}
+
 #ifdef CONFIG_CPU_FREQ_VDD_LEVELS
+
 ssize_t acpuclk_get_vdd_levels_str(char *buf) {
 
         int i, len = 0;
@@ -1299,16 +1305,10 @@ void acpuclk_set_vdd(unsigned int khz, int vdd_uv) {
 
         for (i = 0; pll0_960_pll1_245_pll2_1200_pll4_1008[i].a11clk_khz; i++) {
                 if ( pll0_960_pll1_245_pll2_1200_pll4_1008[i].a11clk_khz == khz)
-                        pll0_960_pll1_245_pll2_1200_pll4_1008[i].vdd = vdd_uv;
+                        ppll0_960_pll1_245_pll2_1200_pll4_1008[i].vdd = vdd_uv;
         }
 
         mutex_unlock(&drv_state.lock);
-}
-#endif
-
-static int __init acpuclk_7627_init(void)
-{
-	return platform_driver_register(&acpuclk_7627_driver);
 }
 
 postcore_initcall(acpuclk_7627_init);

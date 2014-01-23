@@ -1,0 +1,23 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x0c\x00K\x00e\x00r\x00n\x00e\x00l)
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=Nowa konfiguracja Natywny program
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Debugger Shell=
+Display Demangle Names=true
+Display Static Members=false
+GDB Path=file:///home/pepejson/android/Galaxy_Young/Kernel/build_kernel.sh
+Remote GDB Config Script=
+Remote GDB Run Script=
+Remote GDB Shell Script=
+
+[Project]
+VersionControlSupport=kdevgit
