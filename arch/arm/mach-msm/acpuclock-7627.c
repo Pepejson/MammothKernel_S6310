@@ -909,11 +909,11 @@ done:
 			pr_warning("mamutos current axi: %d", strt_s->axiclk_khz);
 			pr_warning("mamutos new axi: %d", tgt_s->axiclk_khz);
 			pr_warning("EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
-			pr_warning("AXI_CLK: %d", tgt-s->axiclk_khz * 1000);
+			pr_warning("AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
 		} else {
 			pr_warning("Success RES State: (%d)\n", res);
 			pr_warning("EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
-			pr_warning("AXI_CLK: %d", tgt-s->axiclk_khz * 1000);
+			pr_warning("AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
 		}
 	}
 
