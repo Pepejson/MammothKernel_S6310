@@ -5116,8 +5116,8 @@ static ssize_t t_flash_detect_show(struct device *dev,
 	unsigned int detect;
 	printk(KERN_ERR "%s : enter in sdc%d\n", __func__, host->pdev_id);
 #ifdef CONFIG_MMC_MSM_CARD_NO_HW_DETECTION
-	printk(KERN_INFO "%s : host eject = %d\n", __func__, host->eject);
-	detect = !host->eject;
+	printk(KERN_INFO "%s : mmc->detect_change = %d\n", __func__, mmc->detect_change);
+	detect = mmc->detect_change;
 #else
 	detect = host->plat->status(mmc_dev(host->mmc));
 #endif

@@ -987,6 +987,9 @@ static int mmc_sd_init_card(struct mmc_host *host, u32 ocr,
 	if (err)
 		goto free_card;
 
+#ifdef CONFIG_MMC_MSM_CARD_NO_HW_DETECTION
+	host->detect_change = 1;
+#endif
 	/* Initialization sequence for UHS-I cards */
 	if (rocr & SD_ROCR_S18A) {
 		err = mmc_sd_init_uhs_card(card);

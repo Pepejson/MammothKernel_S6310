@@ -1,2 +1,2 @@
-make royss_user_defconfig
+make royssnfc_user_defconfig
 make

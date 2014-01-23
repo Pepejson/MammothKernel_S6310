@@ -1776,6 +1776,14 @@ unlock:
 	hci_conn_check_pending(hdev);
 }
 
+static inline bool is_role_switch_required(struct hci_dev *hdev)
+{
+	BT_DBG("Bagi .. is_role_switch_required");
+    if (hci_conn_hash_lookup_state(hdev, ACL_LINK, BT_CONNECTED))
+        return true;
+    return false;
+}
+
 static inline void hci_conn_request_evt(struct hci_dev *hdev, struct sk_buff *skb)
 {
 	struct hci_ev_conn_request *ev = (void *) skb->data;
@@ -1819,7 +1827,8 @@ static inline void hci_conn_request_evt(struct hci_dev *hdev, struct sk_buff *sk
 
 			bacpy(&cp.bdaddr, &ev->bdaddr);
 
-			if (lmp_rswitch_capable(hdev) && (mask & HCI_LM_MASTER))
+			//if (lmp_rswitch_capable(hdev) && (mask & HCI_LM_MASTER))
+			if (lmp_rswitch_capable(hdev) && (is_role_switch_required(hdev) || (mask & HCI_LM_MASTER)))
 				cp.role = 0x00; /* Become master */
 			else
 				cp.role = 0x01; /* Remain slave */

@@ -78,6 +78,7 @@ obj-$(CONFIG_SEC_MODEM) += modem_if/
 obj-$(CONFIG_SEC_MISC) += sec_misc.o sec_param.o
 obj-$(CONFIG_SEC_DEBUG) += sec_debug.o
 obj-$(CONFIG_PN544) += pn544.o
+obj-$(CONFIG_NFC_PN547)	+= pn547.o
 obj-$(CONFIG_SEC_DUMP) += sec_dump.o
 obj-$(CONFIG_MACH_ARUBA_DUOS_CTC)   += cw_tty.o
 obj-$(CONFIG_MACH_INFINITE_DUOS_CTC)   += cw_tty.o

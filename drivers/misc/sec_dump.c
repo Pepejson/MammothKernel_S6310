@@ -247,7 +247,10 @@ static int dump_write_proc_debug(struct file *file, const char *buffer,
 
 	printk("[DUMP] %s %d dump_enable_flag:%d \n",__func__, __LINE__, dump_enable_flag);
 
-	smem_vendor1->ram_dump_level = dump_enable_flag;
+	if (smem_vendor1)
+	{
+		smem_vendor1->ram_dump_level = dump_enable_flag;
+	}
 
 #ifdef CONFIG_SEC_MISC
 	if (dump_enable_flag == 0)

@@ -126,6 +126,10 @@ struct syna_gpio_data {
 #include <linux/px3215.h>
 #endif
 
+#ifdef CONFIG_NFC_PN547
+#include <linux/pn547.h>
+#endif
+
 #define WLAN_33V_CONTROL_FOR_BT_ANTENNA
 
 #define WLAN_OK (0)
@@ -328,6 +332,63 @@ static struct platform_device sec_device_jack = {
 static struct platform_device msm_vibrator_device = {
 	.name	= "msm_vibrator",
 	.id		= -1,
+};
+#endif
+
+#ifdef CONFIG_NFC_PN547
+static int pn547_conf_gpio(void)
+{
+	pr_debug("pn547_conf_gpio\n");
+
+	gpio_tlmm_config(GPIO_CFG(GPIO_NFC_SDA, 0, GPIO_CFG_INPUT,
+		GPIO_CFG_NO_PULL, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
+	gpio_tlmm_config(GPIO_CFG(GPIO_NFC_SCL, 0, GPIO_CFG_INPUT,
+		GPIO_CFG_NO_PULL, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
+	return 0;
+}
+
+static int __init pn547_init(void)
+{
+	gpio_tlmm_config(GPIO_CFG(GPIO_NFC_IRQ, 0, GPIO_CFG_INPUT,
+		GPIO_CFG_PULL_DOWN, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
+	gpio_tlmm_config(GPIO_CFG(GPIO_NFC_EN, 0, GPIO_CFG_OUTPUT,
+		GPIO_CFG_PULL_DOWN, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
+	gpio_tlmm_config(GPIO_CFG(GPIO_NFC_FIRMWARE, 0, GPIO_CFG_OUTPUT,
+		GPIO_CFG_PULL_DOWN, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
+
+	pn547_conf_gpio();
+	return 0;
+}
+#endif
+
+#ifdef CONFIG_NFC_PN547
+static struct i2c_gpio_platform_data pn547_i2c_gpio_data = {
+	.sda_pin = GPIO_NFC_SDA,
+	.scl_pin = GPIO_NFC_SCL,
+	.udelay = 5,
+};
+
+static struct platform_device pn547_i2c_gpio_device = {
+	.name = "i2c-gpio",
+	.id = 5,
+	.dev = {
+		.platform_data = &pn547_i2c_gpio_data,
+	},
+};
+
+static struct pn547_i2c_platform_data pn547_pdata = {
+	.conf_gpio = pn547_conf_gpio,
+	.irq_gpio = GPIO_NFC_IRQ,
+	.ven_gpio = GPIO_NFC_EN,
+	.firm_gpio = GPIO_NFC_FIRMWARE,
+};
+
+static struct i2c_board_info pn547_info[] __initdata = {
+	{
+		I2C_BOARD_INFO("pn547", 0x2b),
+		.irq = MSM_GPIO_TO_INT(GPIO_NFC_IRQ),
+		.platform_data = &pn547_pdata,
+	},
 };
 #endif
 
@@ -1290,6 +1351,72 @@ static void stc_power_supply_unregister(struct power_supply *psy)
 	aries_charger.psy_fuelgauge = NULL;
 }
 
+#ifdef CONFIG_MACH_ROYSS_AUS
+static struct stc311x_platform_data stc3115_data = {
+                .battery_online = NULL,
+                .charger_online = null_fn, 		// used in stc311x_get_status()
+                .charger_enable = null_fn,		// used in stc311x_get_status()
+                .power_supply_register = stc_power_supply_register,
+                .power_supply_unregister = stc_power_supply_unregister,
+
+		.Vmode= 0,       /*REG_MODE, BIT_VMODE 1=Voltage mode, 0=mixed mode */
+  		.Alm_SOC = 10,      /* SOC alm level %*/
+  		.Alm_Vbat = 3600,   /* Vbat alm level mV*/
+  		.CC_cnf = 276,      /* nominal CC_cnf, coming from battery characterisation*/
+  		.VM_cnf = 280,      /* nominal VM cnf , coming from battery characterisation*/
+  		.Cnom = 1350,       /* nominal capacity in mAh, coming from battery characterisation*/
+  		.Rsense = 10,       /* sense resistor mOhms*/
+  		.RelaxCurrent = 100, /* current for relaxation in mA (< C/20) */
+  		.Adaptive = 1,     /* 1=Adaptive mode enabled, 0=Adaptive mode disabled */
+
+		.CapDerating[6] = 260,   /* capacity derating in 0.1%, for temp = -20°C */
+  		.CapDerating[5] = 140,   /* capacity derating in 0.1%, for temp = -10°C */
+		.CapDerating[4] = 110,   /* capacity derating in 0.1%, for temp = 0°C */
+		.CapDerating[3] = 50,   /* capacity derating in 0.1%, for temp = 10°C */
+		.CapDerating[2] = 0,   /* capacity derating in 0.1%, for temp = 25°C */
+		.CapDerating[1] = -20,   /* capacity derating in 0.1%, for temp = 40°C */
+		.CapDerating[0] = -30,   /* capacity derating in 0.1%, for temp = 60°C */
+
+  		.OCVOffset[15] = 35,    /* OCV curve adjustment */
+		.OCVOffset[14] = 22,   /* OCV curve adjustment */
+		.OCVOffset[13] = 19,    /* OCV curve adjustment */
+		.OCVOffset[12] = 10,    /* OCV curve adjustment */
+		.OCVOffset[11] = 0,    /* OCV curve adjustment */
+		.OCVOffset[10] = 10,    /* OCV curve adjustment */
+		.OCVOffset[9] = 25,     /* OCV curve adjustment */
+		.OCVOffset[8] = 3,      /* OCV curve adjustment */
+		.OCVOffset[7] = -2,      /* OCV curve adjustment */
+		.OCVOffset[6] = 4,    /* OCV curve adjustment */
+		.OCVOffset[5] = 19,    /* OCV curve adjustment */
+		.OCVOffset[4] = 44,     /* OCV curve adjustment */
+		.OCVOffset[3] = 23,    /* OCV curve adjustment */
+		.OCVOffset[2] = 28,     /* OCV curve adjustment */
+		.OCVOffset[1] = 127,    /* OCV curve adjustment */
+		.OCVOffset[0] = 40,     /* OCV curve adjustment */
+		
+		.OCVOffset2[15] = 16,    /* OCV curve adjustment */
+		.OCVOffset2[14] = 14,   /* OCV curve adjustment */
+		.OCVOffset2[13] = 9,    /* OCV curve adjustment */
+		.OCVOffset2[12] = 2,    /* OCV curve adjustment */
+		.OCVOffset2[11] = 4,    /* OCV curve adjustment */
+		.OCVOffset2[10] = 19,    /* OCV curve adjustment */
+		.OCVOffset2[9] = 1,     /* OCV curve adjustment */
+		.OCVOffset2[8] = -3,      /* OCV curve adjustment */
+		.OCVOffset2[7] = 7,      /* OCV curve adjustment */
+		.OCVOffset2[6] = 21,    /* OCV curve adjustment */
+		.OCVOffset2[5] = 37,    /* OCV curve adjustment */
+		.OCVOffset2[4] = 26,     /* OCV curve adjustment */
+		.OCVOffset2[3] = 19,    /* OCV curve adjustment */
+		.OCVOffset2[2] = 76,     /* OCV curve adjustment */
+		.OCVOffset2[1] = 124,    /* OCV curve adjustment */
+		.OCVOffset2[0] = 0,     /* OCV curve adjustment */
+
+			/*if the application temperature data is preferred than the STC3115 temperature*/
+  		.ExternalTemperature = Temperature_fn, /*External temperature fonction, return °C*/
+  		.ForceExternalTemperature = 0, /* 1=External temperature, 0=STC3115 temperature */
+		
+};
+#else
 static struct stc311x_platform_data stc3115_data = {
                 .battery_online = NULL,
                 .charger_online = null_fn, 		// used in stc311x_get_status()
@@ -1354,7 +1481,7 @@ static struct stc311x_platform_data stc3115_data = {
   		.ForceExternalTemperature = 0, /* 1=External temperature, 0=STC3115 temperature */
 		
 };
-
+#endif
 
 
 static struct i2c_board_info stc_i2c2_boardinfo[] = {
@@ -2288,6 +2415,9 @@ static struct platform_device *msm7627a_surf_ffa_devices[] __initdata = {
 #ifdef CONFIG_BATTERY_STC3115
 	&stc_fuelgauge_i2c_gpio_device,
 #endif
+#ifdef CONFIG_NFC_PN547
+	&pn547_i2c_gpio_device,
+#endif
 };
 
 static struct platform_device *common_devices[] __initdata = {
@@ -2338,6 +2468,9 @@ static struct platform_device *msm8625_surf_devices[] __initdata = {
 #endif
 #ifdef CONFIG_BATTERY_STC3115
 	&stc_fuelgauge_i2c_gpio_device,
+#endif
+#ifdef CONFIG_NFC_PN547
+	&pn547_i2c_gpio_device,
 #endif
 };
 
@@ -3024,7 +3157,9 @@ static void keypad_gpio_init(void)
 static void nc_gpio_init(void)
 {
 	printk(KERN_INFO "[NC] %s start\n", __func__);
+#ifndef CONFIG_NFC_PN547
 	gpio_tlmm_config(GPIO_CFG(49,  0, GPIO_CFG_INPUT, GPIO_CFG_PULL_DOWN, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
+#endif
 	gpio_tlmm_config(GPIO_CFG(75,  0, GPIO_CFG_INPUT, GPIO_CFG_PULL_DOWN, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
 	gpio_tlmm_config(GPIO_CFG(76,  0, GPIO_CFG_INPUT, GPIO_CFG_PULL_DOWN, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
 	gpio_tlmm_config(GPIO_CFG(82,  0, GPIO_CFG_INPUT, GPIO_CFG_PULL_DOWN, GPIO_CFG_2MA), GPIO_CFG_ENABLE);
@@ -3052,7 +3187,10 @@ static void __init msm7x2x_init(void)
 	msm7x27a_uartdm_config();
 
 	msm7x27a_otg_gadget();
+
+#ifndef CONFIG_NFC_PN547
 	msm7x27a_cfg_smsc911x();
+#endif
 
 	fsa9480_gpio_init();
 // GSCHO
@@ -3086,6 +3224,10 @@ static void __init msm7x2x_init(void)
 
 	samsung_sys_class_init();
 
+#ifdef CONFIG_NFC_PN547
+	pn547_init();
+#endif
+
 #if defined(CONFIG_TOUCHSCREEN_MELFAS_KYLE) 
 	i2c_register_board_info( 2, touch_i2c_devices, ARRAY_SIZE(touch_i2c_devices));
 #endif
@@ -3102,6 +3244,9 @@ static void __init msm7x2x_init(void)
 #ifdef CONFIG_BATTERY_STC3115
 	printk("STC3115 is registered");
 	i2c_register_board_info(6, stc_i2c2_boardinfo, ARRAY_SIZE(stc_i2c2_boardinfo));
+#endif
+#ifdef CONFIG_NFC_PN547
+	i2c_register_board_info(5, pn547_info, ARRAY_SIZE(pn547_info));
 #endif
 
 	keypad_gpio_init();

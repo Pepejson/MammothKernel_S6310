@@ -166,11 +166,16 @@ void panic(const char *fmt, ...)
 		} else {
 		  printk(KERN_EMERG "smem_vendor1 is NULL\n");
 		}
-         }
-         else
-		memcpy(&(smem_vendor1->apps_dump.apps_string),\
-				"Kernel panic",\
-				sizeof("Kernel panic"));
+    }
+    else
+	{
+		if (smem_vendor1 != NULL)
+		{
+			memcpy(&(smem_vendor1->apps_dump.apps_string),\
+				   "Kernel panic",\
+					sizeof("Kernel panic"));			
+		}
+	}
 
 	printk(KERN_EMERG "[PANIC] call msm_proc_comm_reset_modem_now func\n");
 

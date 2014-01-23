@@ -391,5 +391,8 @@ struct mgmt_ev_le_conn_params {
 	__u16 timeout;
 } __packed;
 
+//for WIFI Direct issue
+#define MGMT_OP_POWER_OFF		0x00050
+
 #endif /*BT_MGMT*/
 

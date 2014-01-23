@@ -46,6 +46,8 @@ extern int MainTrim(struct i2c_client *client);
 
 extern void msm_batt_chg_en_call(chg_enable_type enable);
 
+extern bool full_charge_info_to_fuelgauge;
+
 
 /* ******************************************************************************** */
 /*        STC311x DEVICE SELECTION                                                  */
@@ -1546,7 +1548,13 @@ int GasGauge_Task(GasGauge_DataTypeDef *GG)
       VM_FSM();  /* in voltage mode */
     else
       MM_FSM();  /* in mixed mode */
-    
+
+	//Lately fully compensation
+	if(BattData.BattState > BATT_IDLE && BattData.SOC >= 990 && BattData.SOC < 995 && BattData.AvgCurrent > 140)
+	{
+		BattData.SOC = 990;
+		STC311x_SetSOC(50688);
+	}
 
     /* -------- APPLICATION RESULTS ------------ */
     
@@ -1820,7 +1828,7 @@ static void stc311x_work(struct work_struct *work)
 	struct stc311x_chip *chip;
 	GasGauge_DataTypeDef GasGaugeData;
 	int res,Loop;
-
+	int charger_detached_fullsoc;
 
 	chip = container_of(work, struct stc311x_chip, work.work);
 
@@ -1851,6 +1859,21 @@ static void stc311x_work(struct work_struct *work)
 	}
 	
     res=GasGauge_Task(&GasGaugeData);  /* process gas gauge algorithm, returns results */
+
+	if(full_charge_info_to_fuelgauge == true)
+		charger_detached_fullsoc = GasGaugeData.SOC; 
+	
+	if(charger_detached_fullsoc <= 0 || charger_detached_fullsoc > 1000)	
+		charger_detached_fullsoc = 1000;
+	
+	GasGaugeData.SOC = ((GasGaugeData.SOC * 100000) / ((charger_detached_fullsoc-1) * 100));
+	
+	if(GasGaugeData.SOC > 1000)
+		GasGaugeData.SOC = 1000;
+
+	pr_info("[BATT] %s: charger_detached_fullsoc : %d\n", __func__, charger_detached_fullsoc);
+	
+		
     if (res>0) 
     {
         /* results available */
@@ -1970,7 +1993,7 @@ static int __devinit stc311x_probe(struct i2c_client *client,
 
 	/* init gas gauge system */
 	sav_client = chip->client;
-	
+
 	/* stc chip reset */
   	printk("stc311x probe reset stc3115 [%d]\n", ret);	
 

@@ -726,6 +726,14 @@ config PN544
         help
           NXP PN544 Near Field Communication controller support.
 
+config NFC_PN547
+        bool "NXP PN547 NFC Controller Driver"
+        default n
+        help
+          NXP PN547 Near Field Communication controller support.
+          This option enables device driver support for the NFC.
+          It is used by many services. NFC is fully controlled using I2C
+          to communicate the AP chip.
 
 config USB_HSIC_SMSC_HUB
 	tristate "Support for HSIC based MSM on-chip SMSC3503 HUB"

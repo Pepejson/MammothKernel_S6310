@@ -190,7 +190,9 @@ struct k3dh_platform_data {
 #define AC			(1 << 7)
 
 /* For movement recognition*/
+#if !defined(CONFIG_MACH_ROYSSNFC)
 #define USES_MOVEMENT_RECOGNITION
+#endif
 
 /* Set z-axis calibration target based on current z-axis value */
 #if defined(CONFIG_MACH_ROY)

@@ -498,3 +498,6 @@ struct mgmt_ev_remote_features {
 	bdaddr_t bdaddr;
 	uint8_t features[8];
 } __packed;
+
+//for WIFI Direct issue
+#define MGMT_OP_POWER_OFF		0x00050

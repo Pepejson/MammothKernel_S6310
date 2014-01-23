@@ -77,6 +77,7 @@ static const u16 mgmt_commands[] = {
 	MGMT_OP_BLOCK_DEVICE,
 	MGMT_OP_UNBLOCK_DEVICE,
 	MGMT_OP_LE_TEST_END,
+	MGMT_OP_POWER_OFF,
 };
 
 static const u16 mgmt_events[] = {
@@ -906,7 +907,11 @@ static int set_connectable(struct sock *sk, u16 index, void *data, u16 len)
 	if (cp->val)
 		scan = SCAN_PAGE;
 	else
+	{
 		scan = 0;
+		/*WIFI Direct Issue - send another HCI CMD to WIFI*/
+		err = hci_send_cmd(hdev, MGMT_OP_POWER_OFF, 0, NULL);
+	}
 
 	err = hci_send_cmd(hdev, HCI_OP_WRITE_SCAN_ENABLE, 1, &scan);
 	if (err < 0)
@@ -2897,6 +2902,8 @@ int mgmt_control(struct sock *sk, struct msghdr *msg, size_t msglen)
 		break;
 	case MGMT_OP_LE_TEST_END:
 		err = test_end_le(sk, index);
+		break;
+	case MGMT_OP_POWER_OFF:
 		break;
 	default:
 		BT_DBG("Unknown op %u", opcode);

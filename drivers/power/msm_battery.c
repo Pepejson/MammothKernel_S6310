@@ -53,6 +53,9 @@ static struct wake_lock lpm_wake_lock;
 static struct wake_lock fuel_alert_wake_lock;
 static int fuel_alert_det;
 static bool quick_start=false;
+#if defined(CONFIG_BATTERY_STC3115)
+extern bool full_charge_info_to_fuelgauge=false;
+#endif
 
 extern unsigned int board_hw_revision;
 
@@ -463,7 +466,7 @@ const int temp_table[][2] = {
 #define BATT_BACK_MAX_CHARGING_TIME		(40 * TIME_UNIT_MINUTE)
 #endif
 #define BATT_FULL_CHARGING_VOLTAGE      4170
-#define BATT_RECHARGING_VOLTAGE_1	4130
+#define BATT_RECHARGING_VOLTAGE_1	4150
 #define BATT_RECHARGING_VOLTAGE_2	4060
 #define BATT_FULL_PERCENT_VOLTAGE       4175
 
@@ -2804,7 +2807,7 @@ static int msm_batt_check_recharging(void)
 static int msm_batt_check_level(int battery_level)
 {
 
-#if defined(CONFIG_MACH_ROY) || defined(CONFIG_MACH_ARUBA_OPEN) || (defined(CONFIG_MACH_ARUBA_CTC) && !defined(CONFIG_BQ27425_FUEL_GAUGE))
+#if defined(CONFIG_MACH_ARUBA_OPEN) || (defined(CONFIG_MACH_ARUBA_CTC) && !defined(CONFIG_BQ27425_FUEL_GAUGE))// || defined(CONFIG_MACH_ROY) 
 	//if (msm_batt_info.batt_full_check)
 	if(msm_batt_info.batt_status == POWER_SUPPLY_STATUS_FULL)
 		msm_batt_info.charger_detached_fullsoc = battery_level; 
@@ -3541,6 +3544,17 @@ static void msm_batt_update_psy_status(void)
 	    msm_batt_info.pdata->psy_fuelgauge->get_property) {
 #if defined(CONFIG_MACH_ARUBA_CTC) || defined(CONFIG_MACH_ARUBA_OPEN) || defined(CONFIG_MACH_ARUBASLIM_OPEN) || defined(CONFIG_MACH_ROY) || defined(CONFIG_MACH_KYLEPLUS_CTC) || defined(CONFIG_MACH_KYLEPLUS_OPEN)
 		value.intval = 0;	/*normal soc */
+#endif
+
+#if defined(CONFIG_BATTERY_STC3115)
+	if(msm_batt_info.batt_status ==POWER_SUPPLY_STATUS_FULL)
+	{
+		full_charge_info_to_fuelgauge = true;
+	}
+	else
+	{
+		full_charge_info_to_fuelgauge = false;
+	}
 #endif
 		msm_batt_info.pdata->psy_fuelgauge->get_property(
 			msm_batt_info.pdata->psy_fuelgauge, POWER_SUPPLY_PROP_CAPACITY, &value);

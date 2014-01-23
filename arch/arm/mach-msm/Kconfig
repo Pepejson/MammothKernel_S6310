@@ -615,6 +615,13 @@ config MACH_ROY
         help
           Support for the Qualcomm ROY          
 
+config MACH_ROYSS_AUS
+        depends on ARCH_MSM7X27A
+        default n
+        bool "MSM7x27A ROY"
+        help
+          Support for the Qualcomm ROYSS AUS          
+
 config MACH_ROY_DTV
         depends on ARCH_MSM7X27A
         default n
@@ -2778,6 +2785,12 @@ config MACH_ROYSS
 	default n
 	help
 	  if you want to separate something from Roy dual SIM, enable this menu,
+
+config MACH_ROYSSNFC
+	bool "Roy single SIM NFC model to separating from ROY"
+	default n
+	help
+	  if you want to separate something from Roy dual SIM NFC, enable this menu,
 	  
 config DOGKEEPALIVE_LOG
 	bool "Dog keep alive log at RPC level"

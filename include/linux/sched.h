@@ -2687,16 +2687,7 @@ static inline void thread_group_cputime_init(struct signal_struct *sig)
 extern void recalc_sigpending_and_wake(struct task_struct *t);
 extern void recalc_sigpending(void);
 
-extern void signal_wake_up_state(struct task_struct *t, unsigned int state);
-
-static inline void signal_wake_up(struct task_struct *t, bool resume)
-{
-	signal_wake_up_state(t, resume ? TASK_WAKEKILL : 0);
-}
-static inline void ptrace_signal_wake_up(struct task_struct *t, bool resume)
-{
-	signal_wake_up_state(t, resume ? __TASK_TRACED : 0);
-}
+extern void signal_wake_up(struct task_struct *t, int resume_stopped);
 
 /*
  * Wrappers for p->thread_info->cpu access. No-op on UP.
@@ -2985,19 +2976,19 @@ static struct GAForensicINFO{
   .sched_entity_struct_sum_exec_runtime=offsetof(struct sched_entity, sum_exec_runtime),
   .sched_entity_struct_prev_sum_exec_runtime=offsetof(struct sched_entity, prev_sum_exec_runtime),
 
-//#if defined (CONFIG_SCHEDSTATS) || (CONFIG_TASK_DELAY_ACCT)
-//  .task_struct_struct_sched_info=offsetof(struct task_struct, sched_info),
-//  .sched_info_struct_pcount=offsetof(struct sched_info, pcount),
-//  .sched_info_struct_run_delay=offsetof(struct sched_info, run_delay),
-//  .sched_info_struct_last_arrival=offsetof(struct sched_info, last_arrival),
-//  .sched_info_struct_last_queued=offsetof(struct sched_info, last_queued),
-//#else
+#if defined (CONFIG_SCHEDSTATS) || (CONFIG_TASK_DELAY_ACCT)
+  .task_struct_struct_sched_info=offsetof(struct task_struct, sched_info),
+  .sched_info_struct_pcount=offsetof(struct sched_info, pcount),
+  .sched_info_struct_run_delay=offsetof(struct sched_info, run_delay),
+  .sched_info_struct_last_arrival=offsetof(struct sched_info, last_arrival),
+  .sched_info_struct_last_queued=offsetof(struct sched_info, last_queued),
+#else
   .task_struct_struct_sched_info=0x1223,
   .sched_info_struct_pcount=0x1224,
   .sched_info_struct_run_delay=0x1225,
   .sched_info_struct_last_arrival=0x1226,
   .sched_info_struct_last_queued=0x1227,
-//#endif
+#endif
 
 #ifdef CONFIG_DEBUG_MUTEXES
   .task_struct_struct_blocked_on=offsetof(struct task_struct, blocked_on),

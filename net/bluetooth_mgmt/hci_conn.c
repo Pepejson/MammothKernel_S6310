@@ -231,7 +231,7 @@ void hci_setup_sync(struct hci_conn *conn, __u16 handle)
 		cp.max_latency    = cpu_to_le16(0x000a);
 		cp.pkt_type = cpu_to_le16(conn->pkt_type);
 		cp.voice_setting  = cpu_to_le16(hdev->voice_setting);
-		if (lmp_esco_capable(conn->link)) {
+		if (lmp_esco_capable(conn->link) && conn->attempt < 2) {
 			cp.retrans_effort = 0x01;
 			BT_DBG("remote headset supports eSCO");
 		} else {

@@ -155,4 +155,12 @@
 #define GPIO_I2C_SCL			131
 #define GPIO_I2C_SDA			132
 
+#ifdef CONFIG_NFC_PN547
+#define GPIO_NFC_SDA			13
+#define GPIO_NFC_SCL			14
+#define GPIO_NFC_IRQ			112
+#define GPIO_NFC_FIRMWARE		49
+#define GPIO_NFC_EN				58
+#endif
+
 #endif	/* __GPIO_ROY_H_ */

@@ -162,7 +162,7 @@ static const struct ath6kl_hw hw_list[] = {
  * Use value of zero to disable keepalive support
  * Default: 60 seconds
  */
-#define WLAN_CONFIG_KEEP_ALIVE_INTERVAL 60
+#define WLAN_CONFIG_KEEP_ALIVE_INTERVAL 25
 
 /*
  * This configuration item sets the value of disconnect timeout

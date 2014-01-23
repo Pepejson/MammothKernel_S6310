@@ -1182,7 +1182,7 @@ static int sr300pc20_sensor_power_up(struct msm_sensor_ctrl_t *s_ctrl)
 		data->sensor_platform_info->i2c_conf->use_i2c_mux)
 		msm_sensor_enable_i2c_mux(data->sensor_platform_info->i2c_conf);
 
-
+	sr300pc20_control.settings.scenemode = CAMERA_SCENE_AUTO;
 	cam_info(" X\n");
 
 	return rc;
