@@ -236,15 +236,15 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_1008[] = {
 	{ 0, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
 	{ 1, 1008000, ACPU_PLL_4, 6, 0, 136000, 3, 7, 200000 },
-        { 1, 1036800, ACPU_PLL_4, 6, 0, 139600, 3, 7, 205302 },
-        { 1, 1056000, ACPU_PLL_4, 6, 0, 142000, 3, 7, 205302 },
-        { 1, 1113600, ACPU_PLL_4, 6, 0, 149200, 3, 7, 205302 },
-        { 1, 1152000, ACPU_PLL_4, 6, 0, 154000, 3, 7, 210604 },
-        { 1, 1190400, ACPU_PLL_4, 6, 0, 158800, 3, 7, 210604 },
-        { 1, 1228800, ACPU_PLL_4, 6, 0, 163600, 3, 7, 210604 },
-        { 1, 1267200, ACPU_PLL_4, 6, 0, 168400, 3, 7, 215906 },
-	{ 1, 1280000, ACPU_PLL_4, 6, 0, 170000, 3, 7, 215906 }, //Max for PLL
-	{ 1, 1292800, ACPU_PLL_4, 6, 0, 175000, 3, 7, 215906 },
+        { 1, 1036800, ACPU_PLL_4, 6, 0, 139600, 3, 7, 200000 },
+        { 1, 1056000, ACPU_PLL_4, 6, 0, 142000, 3, 7, 200000 },
+        { 1, 1113600, ACPU_PLL_4, 6, 0, 149200, 3, 7, 200000 },
+        { 1, 1152000, ACPU_PLL_4, 6, 0, 154000, 3, 7, 200000 },
+        { 1, 1190400, ACPU_PLL_4, 6, 0, 158800, 3, 7, 200000 },
+        { 1, 1228800, ACPU_PLL_4, 6, 0, 163600, 3, 7, 200000 },
+        { 1, 1267200, ACPU_PLL_4, 6, 0, 168400, 3, 7, 200000 },
+	{ 1, 1280000, ACPU_PLL_4, 6, 0, 170000, 3, 7, 200000 }, //Max for PLL
+	{ 1, 1292800, ACPU_PLL_4, 6, 0, 175000, 3, 7, 200000 },
 	//205302
 	//210604
 	//215906
@@ -902,17 +902,8 @@ done:
 	if (strt_s->axiclk_khz != tgt_s->axiclk_khz) {
 		res = clk_set_rate(drv_state.ebi1_clk,
 				tgt_s->axiclk_khz * 1000);
-		if (res < 0) {
-			pr_warning("FAIL: First warning: Setting AXI min rate failed (%d)\n", res);
-			pr_warning("FAIL: mamutos current axi: %d", strt_s->axiclk_khz);
-			pr_warning("FAIL: mamutos new axi: %d", tgt_s->axiclk_khz);
-			pr_warning("FAIL: EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
-			pr_warning("FAIL: AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
-		} else {
-			pr_warning("Success: RES State: (%d)\n", res);
-			pr_warning("Success: EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
-			pr_warning("Success: AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
-		}
+		if (res < 0)
+			pr_warning("Setting AXI min rate failed (%d)\n", res);
 	}
 
 	/* Disable PLLs we are not using anymore. */
@@ -1000,7 +991,7 @@ static void __devinit acpuclk_hw_init(void)
 
 	res = clk_set_rate(drv_state.ebi1_clk, speed->axiclk_khz * 1000);
 	if (res < 0)
-		pr_warning("Second Warning: Setting AXI min rate failed (%d)\n", res);
+		pr_warning("Setting AXI min rate failed (%d)\n", res);
 	res = clk_enable(drv_state.ebi1_clk);
 	if (res < 0)
 		pr_warning("Enabling AXI clock failed (%d)\n", res);
