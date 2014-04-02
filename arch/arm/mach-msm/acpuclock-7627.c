@@ -903,15 +903,15 @@ done:
 		res = clk_set_rate(drv_state.ebi1_clk,
 				tgt_s->axiclk_khz * 1000);
 		if (res < 0) {
-			pr_warning("First warning: Setting AXI min rate failed (%d)\n", res);
-			pr_warning("mamutos current axi: %d", strt_s->axiclk_khz);
-			pr_warning("mamutos new axi: %d", tgt_s->axiclk_khz);
-			pr_warning("EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
-			pr_warning("AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
+			pr_warning("FAIL: First warning: Setting AXI min rate failed (%d)\n", res);
+			pr_warning("FAIL: mamutos current axi: %d", strt_s->axiclk_khz);
+			pr_warning("FAIL: mamutos new axi: %d", tgt_s->axiclk_khz);
+			pr_warning("FAIL: EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
+			pr_warning("FAIL: AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
 		} else {
-			//pr_warning("Success RES State: (%d)\n", res);
-			//pr_warning("EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
-			//pr_warning("AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
+			pr_warning("Success: RES State: (%d)\n", res);
+			pr_warning("Success: EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
+			pr_warning("Success: AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
 		}
 	}
 
