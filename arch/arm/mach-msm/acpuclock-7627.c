@@ -236,20 +236,18 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_1008[] = {
 	{ 0, 504000, ACPU_PLL_4, 6, 1, 63000, 3, 6, 160000 },
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
 	{ 1, 1008000, ACPU_PLL_4, 6, 0, 136000, 3, 7, 200000 },
-        { 1, 1036800, ACPU_PLL_4, 6, 0, 139600, 3, 7, 200000 },
-        { 1, 1056000, ACPU_PLL_4, 6, 0, 142000, 3, 7, 200000 },
-        { 1, 1113600, ACPU_PLL_4, 6, 0, 149200, 3, 7, 200000 },
-        { 1, 1152000, ACPU_PLL_4, 6, 0, 154000, 3, 7, 200000 },
-        { 1, 1190400, ACPU_PLL_4, 6, 0, 158800, 3, 7, 200000 },
-        { 1, 1228800, ACPU_PLL_4, 6, 0, 163600, 3, 7, 200000 },
-        { 1, 1267200, ACPU_PLL_4, 6, 0, 168400, 3, 7, 200000 },
-	{ 1, 1280000, ACPU_PLL_4, 6, 0, 170000, 3, 7, 200000 }, //Max for PLL, next freqs will not have own PLL freq
-	{ 1, 1290000, ACPU_PLL_4, 6, 0, 171250, 3, 7, 200000 },
-        { 1, 1300000, ACPU_PLL_4, 6, 0, 172500, 3, 7, 200000 },
+        { 1, 1036800, ACPU_PLL_4, 6, 0, 139600, 3, 7, 205302 },
+        { 1, 1056000, ACPU_PLL_4, 6, 0, 142000, 3, 7, 205302 },
+        { 1, 1113600, ACPU_PLL_4, 6, 0, 149200, 3, 7, 205302 },
+        { 1, 1152000, ACPU_PLL_4, 6, 0, 154000, 3, 7, 210604 },
+        { 1, 1190400, ACPU_PLL_4, 6, 0, 158800, 3, 7, 210604 },
+        { 1, 1228800, ACPU_PLL_4, 6, 0, 163600, 3, 7, 210604 },
+        { 1, 1267200, ACPU_PLL_4, 6, 0, 168400, 3, 7, 215906 },
+	{ 1, 1280000, ACPU_PLL_4, 6, 0, 170000, 3, 7, 215906 }, //Max for PLL
+	{ 1, 1292800, ACPU_PLL_4, 6, 0, 175000, 3, 7, 215906 },
 	//205302
 	//210604
 	//215906
-	//221208
 	{ 0 }
 };
 
@@ -911,9 +909,9 @@ done:
 			pr_warning("EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
 			pr_warning("AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
 		} else {
-			pr_warning("Success RES State: (%d)\n", res);
-			pr_warning("EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
-			pr_warning("AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
+			//pr_warning("Success RES State: (%d)\n", res);
+			//pr_warning("EBI1_CLK: %d", clk_get(NULL, "ebi1_acpu_clk"));
+			//pr_warning("AXI_CLK: %d", tgt_s->axiclk_khz * 1000);
 		}
 	}
 
