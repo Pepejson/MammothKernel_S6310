@@ -950,6 +950,12 @@ static struct resource kgsl_3d0_resources[] = {
 
 static struct kgsl_device_platform_data kgsl_3d0_pdata = {
         .pwrlevel = {
+		//Fake freq to avoid kernel errors
+	        {
+                        .gpu_freq = 280000000,
+                        .bus_freq = 220000000,
+                },
+		//End of fake freq
                 {
                         .gpu_freq = 245760000,
                         .bus_freq = 200000000,
@@ -964,7 +970,7 @@ static struct kgsl_device_platform_data kgsl_3d0_pdata = {
                 },
 	},
 	.init_level = 0,
-	.num_levels = 3,
+	.num_levels = 4,
 	.set_grp_async = set_grp_xbar_async,
 	.idle_timeout = HZ,
 	.strtstp_sleepwake = true,
