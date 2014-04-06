@@ -224,7 +224,6 @@ struct platform_device msm_device_dmov = {
 static struct acpuclk_pdata msm7x27a_acpuclk_pdata = {
 	.max_speed_delta_khz = 400000,
         .max_axi_khz = 216000,
-	//215906
 };
 
 struct platform_device msm7x27a_device_acpuclk = {
