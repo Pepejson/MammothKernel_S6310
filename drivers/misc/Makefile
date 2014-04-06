@@ -71,7 +71,7 @@ obj-$(CONFIG_MSM_MEMORY_LOW_POWER_MODE_SUSPEND_DEEP_POWER_DOWN) \
 obj-$(CONFIG_PMIC8058_XOADC) += pmic8058-xoadc.o
 obj-$(CONFIG_QSEECOM) += qseecom.o
 obj-$(CONFIG_QFP_FUSE) += qfp_fuse.o
-obj-$(CONFIG_SAMSUNG_FM_SI4709)     += fm_si4709/
+#obj-$(CONFIG_SAMSUNG_FM_SI4709)     += fm_si4709/
 obj-$(CONFIG_SAMSUNG_JACK) += sec_jack.o
 obj-$(CONFIG_FSAXXXX_USBSW)  += fsaxxxx_usbsw.o
 obj-$(CONFIG_SEC_MODEM) += modem_if/
@@ -84,4 +84,4 @@ obj-$(CONFIG_MACH_ARUBA_DUOS_CTC)   += cw_tty.o
 obj-$(CONFIG_MACH_INFINITE_DUOS_CTC)   += cw_tty.o
 obj-$(CONFIG_MACH_BAFFIN_DUOS_CTC)   += cw_tty.o
 #obj-$(CONFIG_MACH_ARUBA_CTC)   += cw_tty.o
-obj-$(CONFIG_DPRAM_GSM)	+= dpramGSM/
+#obj-$(CONFIG_DPRAM_GSM)	+= dpramGSM/
